@@ -1,4 +1,10 @@
-const { to_upper_case, get_string_info, StringTools } = require('../app/tools');
+const {
+  to_upper_case,
+  get_string_info,
+  StringTools,
+  calc_complexity,
+  to_upper_case_with_cb
+} = require('../app/tools');
 
 // AAA - Arrange, Act, Assert
 
@@ -72,6 +78,28 @@ describe('Tools test suit', () => {
         expect(error).toBeInstanceOf(Error);
         expect(error).toHaveProperty('message', 'Invalid argument');
       }
+    });
+  });
+
+  describe('Other tools', () => {
+    test('Calculate complexity', () => {
+      const info = {
+        length: 5,
+        extra_info: {
+          field1: 'test1',
+          field2: 'test2',
+        }
+      };
+      const actual = calc_complexity(info as any);
+      expect(actual).toBe(10)
+    }) ;
+    test('To uppercase - callback with invalid argument', () => {
+      const actual = to_upper_case_with_cb('', () => {});
+      expect(actual).toBeUndefined();
+    });
+    test('To uppercase - callback with valid argument', () => {
+      const actual = to_upper_case_with_cb('abc', () => {});
+      expect(actual).toBe('ABC');
     });
   });
 });
